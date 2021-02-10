@@ -88,7 +88,7 @@ BILIBILI-HELPER
 | ------------- | ------------------- |
 | DEDEUSERID    | 从 Cookie 中获取    |
 | SESSDATA      | 从 Cookie 中获取    |
-| BILI\_JCT      | 从 Cookie 中获取    |
+| BILI\_JCT     | 从 Cookie 中获取    |
 | SERVERPUSHKEY | server酱推送的sckey |
 
 
@@ -106,6 +106,27 @@ BILIBILI-HELPER
 {
 - "trigger": 0
 + "trigger": 1
+}
+```
+
+**
+由于[issues/313](https://github.com/JunzhouLiu/BILIBILI-HELPER/issues/313)中反馈接收到了B站的警告，所以跳过每日任务选项默认开启(也就是默认不执行每日任务)，如需关闭，请将`src/main/resources/config.json`中的`skipDailyTask`值改为`false`
+,**
+
+```patch
+{
+  "numberOfCoins": 5,
+  "reserveCoins": 50,
+  "selectLike": 0,
+  "monthEndAutoCharge": true,
+  "giveGift": true,
+  "upLive": "0",
+  "chargeForLove": "0",
+  "devicePlatform": "ios",
+  "coinAddPriority": 1,
+- "skipDailyTask": true,
++ "skipDailyTask": false,
+  "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Safari/605.1.15"
 }
 ```
 
@@ -156,7 +177,7 @@ wget https://raw.githubusercontent.com/JunzhouLiu/BILIBILI-HELPER/main/setup.sh 
 
 | args              | 说明               |
 | ----------------- | ------------------ |
-| 30 10 \* \* \*       | `crontab` 定时时间 |
+| 30 10 \* \* \*    | `crontab` 定时时间 |
 | sh /home/start.sh | `start.sh`的路径   |
 
 ```shell
@@ -195,7 +216,7 @@ java -jar /home/BILIBILI-HELPER.jar DEDEUSERID SESSDATA BILI_JCT SCKEY >> /var/l
   "chargeForLove": "0",
   "devicePlatform": "ios",
   "coinAddPriority": 1,
-  "skipDailyTask": false,
+  "skipDailyTask": true,
   "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Safari/605.1.15"
 }
 ```
@@ -217,7 +238,7 @@ java -jar /home/BILIBILI-HELPER.jar DEDEUSERID SESSDATA BILI_JCT SCKEY >> /var/l
 | devicePlatform     | [ios,android]     | 手机端漫画签到时的平台，建议选择你设备的平台 ，默认 `ios`               |
 | coinAddPriority    | [0,1]             | 0：优先给热榜视频投币，1：优先给关注的up投币                            |
 | userAgent          | 浏览器UA          | 用户可根据部署平台配置，可根据userAgent参数列表自由选取                 |
-| skipDailyTask      | [false,true]      | 是否跳过每日任务，默认`false`,如果需要跳过每日任务，请改为true          |
+| skipDailyTask      | [false,true]      | 是否跳过每日任务，默认`true`,如果关闭跳过每日任务，请改为`false`        |
 
 \*\*tips:如果你没有上传过视频并开启充电计划，充电会失败，B币券会浪费。此时建议配置为给指定的up主充电。欢迎给即将秃头的我充电
 uid：[14602398][32] \*\*
@@ -228,9 +249,9 @@ userAgent可选参数列表
 | --------- | -------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
 | Windows10 | EDGE(chromium) | Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36 Edg/86.0.622.69 |
 | Windows10 | Chrome         | Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36                 |
-| masOS     | safari         | Mozilla/5.0 (Macintosh; Intel Mac OS X 10\_15\_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Safari/605.1.15               |
+| masOS     | safari         | Mozilla/5.0 (Macintosh; Intel Mac OS X 10\_15\_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Safari/605.1.15             |
 | macOS     | Firefox        | Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:65.0) Gecko/20100101 Firefox/65.0                                                  |
-| macOS     | Chrome         | Mozilla/5.0 (Macintosh; Intel Mac OS X 10\_12\_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.75 Safari/537.36            |
+| macOS     | Chrome         | Mozilla/5.0 (Macintosh; Intel Mac OS X 10\_12\_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.75 Safari/537.36          |
 
 *ps：如果尝试给关注的 up 投币十次后（保不准你关注的是年更up主），还没完成每日投币任务，则切换成热榜模式，给热榜视频投币*
 
